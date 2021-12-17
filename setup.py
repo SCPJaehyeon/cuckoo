@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # Copyright (C) 2016-2019 Cuckoo Foundation.
 # This file is part of Cuckoo Sandbox - https://cuckoosandbox.org/.
-# See the file 'docs/LICENSE' for copying permission.
+#  See the file 'docs/LICENSE' for copying permission.
 
 import hashlib
 import os
