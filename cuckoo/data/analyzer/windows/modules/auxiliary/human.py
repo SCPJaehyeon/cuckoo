@@ -133,14 +133,29 @@ def move_mouse():
     # this featur optional.
     USER32.SetCursorPos(x, y)
 
-def click_mouse():
+def click_mouse_left():
     # Move mouse to top-middle position.
     USER32.SetCursorPos(RESOLUTION["x"] / 2, 0)
-    # Mouse down.
-    USER32.mouse_event(2, 0, 0, 0, None)
+    # Left Mouse down.
+    USER32.mouse_event(0x0002, 0, 0, 0, None)
     KERNEL32.Sleep(50)
-    # Mouse up.
-    USER32.mouse_event(4, 0, 0, 0, None)
+    # Left Mouse up.
+    USER32.mouse_event(0x0004, 0, 0, 0, None)
+
+def click_mouse_right():
+    # Move mouse to top-middle position.
+    USER32.SetCursorPos(RESOLUTION["x"] / 2, 0)
+    # Right Mouse down.
+    USER32.mouse_event(0x0008, 0, 0, 0, None)
+    KERNEL32.Sleep(40)
+    # Right Mouse up.
+    USER32.mouse_event(0x0010, 0, 0, 0, None)
+
+def wheel_mouse():
+    # Move mouse to top-middle position.
+    USER32.SetCursorPos(RESOLUTION["x"] / 2, 0)
+    # Mouse wheel action.
+    USER32.mouse_event(0x0800, 0, 0, 200, None)
 
 class Human(threading.Thread, Auxiliary):
     """Human after all"""
@@ -181,7 +196,11 @@ class Human(threading.Thread, Auxiliary):
                 USER32.EnumWindows(EnumWindowsProc(get_office_window), 0)
 
             if self.do_click_mouse:
-                click_mouse()
+                click_mouse_left()
+                KERNEL32.Sleep(300)
+                click_mouse_right()
+                KERNEL32.Sleep(300)
+                wheel_mouse()
 
             if self.do_move_mouse:
                 move_mouse()
