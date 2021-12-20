@@ -157,6 +157,12 @@ def wheel_mouse():
     # Mouse wheel action.
     USER32.mouse_event(0x0800, 0, 0, 200, None)
 
+def press_enter():
+    # Return Key down.
+    USER32.keybd_event(0x0D, 0, 0, 0)
+    # Return Key up.
+    USER32.keybd_event(0x0D, 0, 0x0002, 0)
+
 class Human(threading.Thread, Auxiliary):
     """Human after all"""
 
@@ -176,10 +182,12 @@ class Human(threading.Thread, Auxiliary):
             self.do_move_mouse = int(self.options["human"])
             self.do_click_mouse = int(self.options["human"])
             self.do_click_buttons = int(self.options["human"])
+            self.do_press_keyboard = int(self.options["human"])
         else:
             self.do_move_mouse = True
             self.do_click_mouse = True
             self.do_click_buttons = True
+            self.do_press_keyboard = True
 
         # Per-feature enable or disable flag.
         if "human.move_mouse" in self.options:
@@ -201,6 +209,9 @@ class Human(threading.Thread, Auxiliary):
                 click_mouse_right()
                 KERNEL32.Sleep(300)
                 wheel_mouse()
+
+            if self.do_press_keyboard:
+                press_enter()
 
             if self.do_move_mouse:
                 move_mouse()
